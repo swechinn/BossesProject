@@ -13,4 +13,8 @@ public final class ProBoss extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
     }
+
+    private void bosses() {
+
+    }
 }

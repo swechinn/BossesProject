@@ -29,9 +29,8 @@ public final class BossInventory {
      * Sets main hand item
      * @return this class
      */
-    public @NotNull BossInventory rightHand(ItemStack hand) {
+    public void rightHand(@NotNull ItemStack hand) {
         this.rightHand = hand;
-        return this;
     }
 
     /**
@@ -47,9 +46,8 @@ public final class BossInventory {
      * Sets left hand item
      * @return this class
      */
-    public @NotNull BossInventory leftHand(ItemStack hand) {
+    public void leftHand(@NotNull ItemStack hand) {
         this.leftHand = hand;
-        return this;
     }
 
     /**
@@ -65,9 +63,8 @@ public final class BossInventory {
      * Sets helmet item
      * @return this class
      */
-    public @NotNull BossInventory helmet(ItemStack helmet) {
+    public void helmet(@NotNull ItemStack helmet) {
         this.helmet = helmet;
-        return this;
     }
 
     /**
@@ -82,9 +79,8 @@ public final class BossInventory {
      * Sets chestplate item
      * @return this class
      */
-    public @NotNull BossInventory chestplate(ItemStack chestplate) {
+    public void chestplate(@NotNull ItemStack chestplate) {
         this.chestplate = chestplate;
-        return this;
     }
 
     /**
@@ -99,9 +95,8 @@ public final class BossInventory {
      * Sets leggins item
      * @return this class
      */
-    public @NotNull BossInventory leggins(ItemStack leggins) {
+    public void leggins(@NotNull ItemStack leggins) {
         this.leggins = leggins;
-        return this;
     }
 
     /**
@@ -116,9 +111,8 @@ public final class BossInventory {
      * Sets boots item
      * @return this class
      */
-    public @NotNull BossInventory boots(ItemStack boots) {
+    public void boots(@NotNull ItemStack boots) {
         this.boots = boots;
-        return this;
     }
 
     /**
@@ -127,5 +121,35 @@ public final class BossInventory {
      */
     public @NotNull ItemStack boots() {
         return boots;
+    }
+
+    /**
+     * Sets params from inventory template
+     * @param template new custom boss inventory
+     * @return this class
+     */
+    public @NotNull BossInventory from(BossInventory template) {
+        this.rightHand = template.rightHand;
+        this.leftHand = template.leftHand;
+        this.helmet = template.helmet;
+        this.chestplate = template.chestplate;
+        this.leggins = template.leggins;
+        this.boots = template.boots;
+
+        return this;
+    }
+
+    @Override
+    public @NotNull BossInventory clone() {
+        BossInventory cloned = new BossInventory();
+
+        cloned.rightHand = this.rightHand;
+        cloned.leftHand = this.leftHand;
+        cloned.helmet = this.helmet;
+        cloned.chestplate = this.chestplate;
+        cloned.leggins = this.leggins;
+        cloned.boots = this.boots;
+
+        return cloned;
     }
 }
