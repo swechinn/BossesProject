@@ -1,0 +1,7 @@
+name: ProBoss
+version: '${project.version}'
+main: ru.brenlike.proboss.ProBoss
+api-version: 1.16
+depend: [ CustomBossApi ]
+authors: [ 25BrenLike ]
+description: Minecraft boss serializer. Special for DiamondWorld
