@@ -4,7 +4,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.jetbrains.annotations.NotNull;
 import ru.brenlike.custombossapi.api.boss.inventory.BossInventory;
-import ru.brenlike.custombossapi.api.boss.Ability;
+import ru.brenlike.custombossapi.api.boss.ability.Ability;
 import ru.brenlike.custombossapi.api.boss.Boss;
 
 import java.util.Set;

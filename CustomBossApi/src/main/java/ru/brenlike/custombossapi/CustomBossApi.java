@@ -9,9 +9,7 @@ import ru.brenlike.custombossapi.db.PlayerStatsDB;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Logger;
 
 public final class CustomBossApi extends JavaPlugin {
@@ -89,15 +87,25 @@ public final class CustomBossApi extends JavaPlugin {
         l.info(getDescription().getName() + " " + getDescription().getVersion() + " - plugin disabled!");
     }
 
+    private List<String> m_99_(String... args) {
+        return Arrays.asList(args);
+    }
+
     private YamlConfiguration m_100_() {
         YamlConfiguration yml = new YamlConfiguration();
 
-        yml.addDefault("prefix", "&8[&bCustomBoss&3Api&7] ");
-        yml.addDefault("plugin.reloaded", "&AПлагин перезагружен!");
-        yml.addDefault("command.error.only_in_game", "&cТолько в игре!");
-        yml.addDefault("command.error.unknown_argument", "&cНеизвестный аргумент команды.");
-        yml.addDefault("command.error.little_args", "&cМало аргументов команды.");
-        yml.addDefault("command.error.permission", "&cНедостаточно прав на выполнение этой команды.");
+        yml.addDefault("prefix", "&8[&bCustomBoss&3Api&7]");
+        yml.addDefault("plugin.reloaded", "{prefix} &AПлагин перезагружен!");
+        yml.addDefault("command.error.only_in_game", "{prefix} &cТолько в игре!");
+        yml.addDefault("command.error.unknown_argument", "{prefix} &cНеизвестный аргумент команды.");
+        yml.addDefault("command.error.little_args", "{prefix} &cМало аргументов команды.");
+        yml.addDefault("command.error.permission", "{prefix} &cНедостаточно прав на выполнение этой команды.");
+        yml.addDefault("boss.actionbar_health", "&eЗдоровье босса: &c{health}&6/{max_health}");
+        yml.addDefault("boss.death", m_99_("&e{boss} &a- Был убит!",
+                "&a1. &b{top_1_name} {top_1_damage}",
+                "&e2. &b{top_2_name} {top_2_damage}",
+                "&61. &b{top_3_name} {top_3_damage}"));
+        yml.addDefault("boss.spawned", "{prefix} &eЗдоровье босса: &c{health}&6/{max_health}");
 
         return yml;
     }

@@ -8,14 +8,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.jetbrains.annotations.Nullable;
 import ru.brenlike.custombossapi.CustomBossApi;
+import ru.brenlike.custombossapi.api.MatchRecord;
 import ru.brenlike.custombossapi.api.boss.Boss;
 import ru.brenlike.custombossapi.api.boss.BossStyle;
 import ru.brenlike.custombossapi.api.boss.SpawnedBoss;
 import ru.brenlike.custombossapi.api.boss.impl.SpawnedBossImpl;
+import ru.brenlike.custombossapi.api.event.BossDeathEvent;
 import ru.brenlike.custombossapi.api.event.PlayerDamageBossEvent;
+import ru.brenlike.custombossapi.db.PlayerStatsDB;
 
 public class EntityListener implements Listener {
     private final CustomBossApi plugin;
@@ -28,34 +31,53 @@ public class EntityListener implements Listener {
     public void onEntityDamage(EntityDamageByEntityEvent e) {
         if (!(e.getDamager() instanceof Player)) return;
         if (!(e.getEntity() instanceof LivingEntity)) return;
-        if (!isBoss(e.getEntity())) return;
+        if (isBoss(e.getEntity())) return;
 
         LivingEntity entity = (LivingEntity) e.getEntity();
         Player p = (Player) e.getDamager();
-        Boss b = boss(entity);
+        Boss b = buildBoss(entity);
 
         BossStyle style = CustomBossApi.bossDict().style(b.key());
-        SpawnedBoss sb = new SpawnedBossImpl(entity.getUniqueId(), b, style);
+        SpawnedBoss spawned = new SpawnedBossImpl(entity.getUniqueId(), b, style);
 
-        health(p, entity);
+        sendHealth(p, entity);
 
-        Bukkit.getPluginManager().callEvent(new PlayerDamageBossEvent(p, sb, p.getWorld()));
+        PlayerStatsDB.updateStat(entity, p, e.getDamage());
+
+        Bukkit.getPluginManager().callEvent(new PlayerDamageBossEvent(p, spawned, p.getWorld()));
+    }
+
+    @EventHandler
+    public void onEntityDeath(EntityDeathEvent e) {
+        if (isBoss(e.getEntity())) return;
+
+        LivingEntity entity = e.getEntity();
+        Boss b = buildBoss(entity);
+
+        BossStyle style = CustomBossApi.bossDict().style(b.key());
+        SpawnedBoss spawned = new SpawnedBossImpl(entity.getUniqueId(), b, style);
+
+        MatchRecord[] results = PlayerStatsDB.killEvent(entity);
+        Bukkit.getPluginManager().callEvent(new BossDeathEvent(spawned, entity.getWorld(), results));
+
+        // Todo
+
     }
 
     private boolean isBoss(Entity entity) {
-        if (!plugin.v_4750_.containsKey(entity.getUniqueId())) return false;
+        if (!plugin.v_4750_.containsKey(entity.getUniqueId())) return true;
 
-        Boss boss = boss(entity);
+        Boss boss = buildBoss(entity);
 
-        return boss != null;
+        return boss == null;
     }
 
-    private @Nullable Boss boss(Entity entity) {
+    private @Nullable Boss buildBoss(Entity entity) {
         return CustomBossApi.registry().boss(plugin.v_4750_.get(entity.getUniqueId()));
     }
 
-    private void health(Player target, LivingEntity entity) {
-        String health = CustomBossApi.m_7011_().getMessage("")
+    private void sendHealth(Player target, LivingEntity entity) {
+        String health = CustomBossApi.m_7011_().getMessage("boss.actionbar_health")
                 .replace("{health}", String.valueOf(entity.getHealth()))
                 .replace("{max_health}", String.valueOf(entity.getMaxHealth()));
 

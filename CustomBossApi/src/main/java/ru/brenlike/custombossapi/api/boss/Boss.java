@@ -2,10 +2,10 @@ package ru.brenlike.custombossapi.api.boss;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
+import ru.brenlike.custombossapi.api.boss.ability.Ability;
 import ru.brenlike.custombossapi.api.boss.inventory.BossInventory;
 import ru.brenlike.custombossapi.api.boss.impl.BossImpl;
 

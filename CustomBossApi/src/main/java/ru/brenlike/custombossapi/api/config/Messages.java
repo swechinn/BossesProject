@@ -9,6 +9,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 /**
  * You can use it in your project!
  * @author 25BrenLike
@@ -35,16 +37,26 @@ public class Messages {
     public @NotNull String getMessage(@NotNull String path) {
         Validate.notNull(path, "Translation path cannot be null!");
 
-        String prefix = file.getString("prefix"),
+        String value = path;
+        Object obj = file.get(path);
+
+        if (obj == null) {
+            Bukkit.getLogger().severe(String.format("%s translation not found!", path));
+
+        } else {
+            if (obj instanceof String)
                 value = file.getString(path);
 
-        if (prefix == null) throw new NullPointerException("Prefix not found!");
-        if (value == null) {
-            value = path;
-            Bukkit.getLogger().severe(String.format("%s translation not found!", path));
+            else if (obj instanceof List<?>) {
+                value = String.join("\n", file.getStringList(path));
+            }
         }
 
-        return ChatColor.translateAlternateColorCodes('&', prefix + value);
+        String prefix = file.getString("prefix");
+        if (prefix == null) throw new NullPointerException("Prefix not found!");
+
+        return ChatColor.translateAlternateColorCodes('&', value
+                .replace("{prefix}", prefix));
     }
 
     /**
