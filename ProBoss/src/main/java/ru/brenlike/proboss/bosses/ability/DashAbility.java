@@ -1,19 +1,18 @@
-package ru.brenlike.proboss.ability.ravager;
+package ru.brenlike.proboss.bosses.ability;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import ru.brenlike.custombossapi.api.boss.ability.Ability;
+import ru.brenlike.custombossapi.api.boss.other.Ability;
 import ru.brenlike.custombossapi.api.boss.inventory.BossInventory;
 
 import java.util.Random;
 
-public class Dash extends Ability {
-    public Dash() {
+public class DashAbility extends Ability {
+    public DashAbility() {
         super((5 * 60) * 20, -1);
     }
 

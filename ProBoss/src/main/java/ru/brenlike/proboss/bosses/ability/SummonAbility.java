@@ -1,14 +1,14 @@
-package ru.brenlike.proboss.ability.summoner;
+package ru.brenlike.proboss.bosses.ability;
 
 import org.bukkit.Location;
 import org.bukkit.entity.*;
-import ru.brenlike.custombossapi.api.boss.ability.Ability;
+import ru.brenlike.custombossapi.api.boss.other.Ability;
 import ru.brenlike.custombossapi.api.boss.inventory.BossInventory;
 
 import java.util.*;
 
-public class Summon extends Ability {
-    public Summon() {
+public class SummonAbility extends Ability {
+    public SummonAbility() {
         super(20 * 60, -1);
     }
 

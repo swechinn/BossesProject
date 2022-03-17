@@ -1,4 +1,4 @@
-package ru.brenlike.proboss.ability.summoner;
+package ru.brenlike.proboss.bosses.ability;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -6,16 +6,16 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Monster;
 import org.bukkit.inventory.ItemStack;
-import ru.brenlike.custombossapi.api.boss.ability.Ability;
+import ru.brenlike.custombossapi.api.boss.other.Ability;
 import ru.brenlike.custombossapi.api.boss.inventory.BossInventory;
 import ru.brenlike.proboss.ProBoss;
 
 import java.util.Random;
 
-public class Armament extends Ability {
+public class ArmamentAbility extends Ability {
     private final ProBoss plugin;
 
-    public Armament(ProBoss plugin) {
+    public ArmamentAbility(ProBoss plugin) {
         super((60 * 10) * 20, -1);
         this.plugin = plugin;
     }

@@ -1,7 +1,6 @@
-package ru.brenlike.custombossapi.api.boss.ability;
+package ru.brenlike.custombossapi.api.boss.other;
 
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Monster;
 import org.jetbrains.annotations.NotNull;
 import ru.brenlike.custombossapi.api.boss.inventory.BossInventory;
