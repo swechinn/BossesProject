@@ -2,12 +2,13 @@ package ru.brenlike.custombossapi.api.boss;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.EntityType;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
-import ru.brenlike.custombossapi.api.boss.ability.Ability;
+import ru.brenlike.custombossapi.api.boss.other.Ability;
 import ru.brenlike.custombossapi.api.boss.inventory.BossInventory;
 import ru.brenlike.custombossapi.api.boss.impl.BossImpl;
+import ru.brenlike.custombossapi.api.boss.other.Protection;
+import ru.brenlike.custombossapi.api.entity.DamageSource;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -33,10 +34,16 @@ public interface Boss {
     @NotNull Set<Ability> abilities();
 
     /**
+     * Returns all boss protections
+     * @return protections
+     */
+    @NotNull Set<Protection> protections();
+
+    /**
      * Returns all boss immunities
      * @return immunities
      */
-    @NotNull Set<EntityDamageEvent.DamageCause> damageImmunities();
+    @NotNull Set<DamageSource> damageImmunities();
 
     /**
      * Returns boss inventory
@@ -53,8 +60,9 @@ public interface Boss {
     class Builder {
         private final String key;
         private final EntityType type;
-        private final Set<Ability> abilities;
-        private final Set<EntityDamageEvent.DamageCause> immunities;
+        private final Set<Ability> abilities = new HashSet<>();
+        private final Set<Protection> protections = new HashSet<>();
+        private final Set<DamageSource> immunities = new HashSet<>();
         private BossInventory inventory = new BossInventory();
         private double speed = 1;
 
@@ -71,8 +79,17 @@ public interface Boss {
 
             this.key = key;
             this.type = type;
-            this.abilities = new HashSet<>();
-            this.immunities = new HashSet<>();
+        }
+
+        /**
+         * Adds boss abilities
+         *
+         * @param abilities boss abilities
+         * @return this builder
+         */
+        public Builder abilities(@NotNull Ability... abilities) {
+            for (Ability ab: abilities) ability(ab);
+            return this;
         }
 
         /**
@@ -88,12 +105,35 @@ public interface Boss {
         }
 
         /**
+         * Adds boss protections
+         *
+         * @param protections boss protections
+         * @return this builder
+         */
+        public Builder protections(@NotNull Protection... protections) {
+            for (Protection p: protections) protection(p);
+            return this;
+        }
+
+        /**
+         * Adds boss protection
+         *
+         * @param protection boss protection
+         * @return this builder
+         */
+        public Builder protection(@NotNull Protection protection) {
+            Validate.notNull(protection, "Boss protection cannot be null!");
+            protections.add(protection);
+            return this;
+        }
+
+        /**
          * Adds boss damage immunity
          *
          * @param immunity boss immunity
          * @return this builder
          */
-        public Builder ability(@NotNull EntityDamageEvent.DamageCause immunity) {
+        public Builder immunity(@NotNull DamageSource immunity) {
             Validate.notNull(immunity, "Boss damage immunity cannot be null!");
             immunities.add(immunity);
             return this;
@@ -127,7 +167,7 @@ public interface Boss {
          * @return boss
          */
         public Boss build() {
-            return new BossImpl(key, type, abilities, immunities, inventory, speed);
+            return new BossImpl(key, type, abilities, protections, immunities, inventory, speed);
         }
     }
 }

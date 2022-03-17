@@ -1,11 +1,12 @@
 package ru.brenlike.custombossapi.api.boss.impl;
 
 import org.bukkit.entity.EntityType;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.jetbrains.annotations.NotNull;
 import ru.brenlike.custombossapi.api.boss.inventory.BossInventory;
-import ru.brenlike.custombossapi.api.boss.ability.Ability;
+import ru.brenlike.custombossapi.api.boss.other.Ability;
 import ru.brenlike.custombossapi.api.boss.Boss;
+import ru.brenlike.custombossapi.api.boss.other.Protection;
+import ru.brenlike.custombossapi.api.entity.DamageSource;
 
 import java.util.Set;
 
@@ -13,18 +14,20 @@ public final class BossImpl implements Boss {
     private final String key;
     private final EntityType type;
     private final Set<Ability> abilities;
-    private final Set<EntityDamageEvent.DamageCause> immunities;
+    private final Set<Protection> protections;
+    private final Set<DamageSource> immunities;
     private final BossInventory inventory;
     private final double speed;
 
-    public BossImpl(@NotNull String p_4800_, @NotNull EntityType p_4801_, @NotNull Set<Ability> p_4802_,
-                @NotNull Set<EntityDamageEvent.DamageCause> p_4803_, @NotNull BossInventory p_4804_, double p_4805_) {
+    public BossImpl(@NotNull String p_4800_, @NotNull EntityType p_4801_, @NotNull Set<Ability> p_4802_, @NotNull Set<Protection> p_4803_,
+                    @NotNull Set<DamageSource> p_4804_, @NotNull BossInventory p_4805_, double p_4806_) {
         this.key = p_4800_;
         this.type = p_4801_;
         this.abilities = p_4802_;
-        this.immunities = p_4803_;
-        this.inventory = p_4804_;
-        this.speed = p_4805_;
+        this.protections = p_4803_;
+        this.immunities = p_4804_;
+        this.inventory = p_4805_;
+        this.speed = p_4806_;
     }
 
     @Override
@@ -43,7 +46,12 @@ public final class BossImpl implements Boss {
     }
 
     @Override
-    public @NotNull Set<EntityDamageEvent.DamageCause> damageImmunities() {
+    public @NotNull Set<Protection> protections() {
+        return protections;
+    }
+
+    @Override
+    public @NotNull Set<DamageSource> damageImmunities() {
         return immunities;
     }
 
