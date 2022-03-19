@@ -37,8 +37,8 @@ public class EntityListener implements Listener {
         Player p = (Player) e.getDamager();
         Boss b = buildBoss(entity);
 
-        BossStyle style = CustomBossApi.bossDict().style(b.key());
-        SpawnedBoss spawned = new SpawnedBossImpl(entity.getUniqueId(), b, style);
+        BossStyle style = CustomBossApi.styles().get(b.key());
+        SpawnedBoss spawned = new SpawnedBossImpl(entity, b, style);
 
         sendHealth(p, entity);
 
@@ -54,8 +54,8 @@ public class EntityListener implements Listener {
         LivingEntity entity = e.getEntity();
         Boss b = buildBoss(entity);
 
-        BossStyle style = CustomBossApi.bossDict().style(b.key());
-        SpawnedBoss spawned = new SpawnedBossImpl(entity.getUniqueId(), b, style);
+        BossStyle style = CustomBossApi.styles().get(b.key());
+        SpawnedBoss spawned = new SpawnedBossImpl(entity, b, style);
 
         MatchRecord[] results = PlayerStatsDB.killEvent(entity);
         Bukkit.getPluginManager().callEvent(new BossDeathEvent(spawned, entity.getWorld(), results));

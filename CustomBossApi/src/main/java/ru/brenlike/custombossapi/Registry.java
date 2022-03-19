@@ -25,7 +25,7 @@ public interface Registry {
 
     /**
      * Returns registered boss or
-     * null if it not exists
+     * null if it is not registered
      * @param key boss key
      * @return {@link Boss} class
      */
@@ -42,6 +42,8 @@ public interface Registry {
         @Override
         public void register(@NotNull Boss boss) {
             Validate.notNull(boss, "Boss value cannot be null!");
+
+            if (bosses.containsKey(boss.key())) throw new IllegalArgumentException("Boss already registered!");
             bosses.put(boss.key(), boss);
         }
 

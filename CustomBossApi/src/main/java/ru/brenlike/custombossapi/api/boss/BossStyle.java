@@ -5,43 +5,53 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Params of your boss from config.yml
+ * Properties of your boss
  */
-@ApiStatus.NonExtendable
-public interface BossStyle {
+public class BossStyle {
+    private final String name;
+    private final long period;
+    private final int online;
+    private final Location location;
+
+    public BossStyle(@NotNull String displayName,
+                     long spawnPeriod,
+                     int spawnOnline,
+                     @NotNull Location spawnLocation) {
+        this.name = displayName;
+        this.period = spawnPeriod;
+        this.online = spawnOnline;
+        this.location = spawnLocation;
+    }
+
     /**
      * Boss display name
      * @return display name
      */
-    @NotNull String name();
+    public @NotNull String name() {
+        return name;
+    }
 
     /**
      * Boss spawn period in ticks
      * @return spawn period
      */
-    long spawnPeriod();
+    public long spawnPeriod() {
+        return period;
+    }
 
     /**
      * Returns online in which boss spawns
      * @return online size
      */
-    int spawnOnline();
+    public int spawnOnline() {
+        return online;
+    }
 
     /**
      * Boss spawn location
      * @return spawn location
      */
-    @NotNull Location spawnLocation();
-
-    /**
-     * Returns boss max health
-     * @return max health
-     */
-    int health();
-
-    /**
-     * Returns boss base damage
-     * @return base damage
-     */
-    double damage();
+    public @NotNull Location spawnLocation() {
+        return location;
+    }
 }

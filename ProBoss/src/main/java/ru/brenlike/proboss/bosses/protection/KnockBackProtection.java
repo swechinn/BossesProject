@@ -6,10 +6,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.brenlike.custombossapi.api.boss.Boss;
+import ru.brenlike.custombossapi.api.boss.SpawnedBoss;
 import ru.brenlike.custombossapi.api.boss.inventory.BossInventory;
-import ru.brenlike.custombossapi.api.boss.other.Protection;
+import ru.brenlike.custombossapi.api.boss.util.Protection;
 import ru.brenlike.custombossapi.api.entity.DamageSource;
+
+import java.util.Random;
 
 public class KnockBackProtection extends Protection {
     public KnockBackProtection() {
@@ -17,7 +19,7 @@ public class KnockBackProtection extends Protection {
     }
 
     @Override
-    public boolean canProtect(@NotNull Boss boss, @NotNull BossInventory inv, @Nullable Entity attacker) {
+    public boolean protect(@NotNull SpawnedBoss boss, @NotNull BossInventory inv, @Nullable Entity attacker, @NotNull Random random) {
         if (attacker == null) return false;
 
         if (attacker instanceof Player) {

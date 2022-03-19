@@ -1,12 +1,14 @@
-package ru.brenlike.custombossapi.api.boss.other;
+package ru.brenlike.custombossapi.api.boss.util;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.brenlike.custombossapi.api.boss.Boss;
+import ru.brenlike.custombossapi.api.boss.SpawnedBoss;
 import ru.brenlike.custombossapi.api.boss.inventory.BossInventory;
 import ru.brenlike.custombossapi.api.entity.DamageSource;
+
+import java.util.Random;
 
 /**
  * Abstract boss protection
@@ -36,7 +38,11 @@ public abstract class Protection {
      * @param boss attacked boss
      * @param inv boss inventory
      * @param attacker who attacked boss
-     * @return true if this protection can work
+     * @param random the randomized values
+     * @return true if this can protect boss
      */
-    public abstract boolean canProtect(@NotNull Boss boss, final @NotNull BossInventory inv, @Nullable Entity attacker);
+    public abstract boolean protect(@NotNull SpawnedBoss boss,
+                                    @NotNull BossInventory inv,
+                                    @Nullable Entity attacker,
+                                    @NotNull Random random);
 }

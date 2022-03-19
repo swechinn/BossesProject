@@ -4,9 +4,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Monster;
 import org.bukkit.inventory.ItemStack;
-import ru.brenlike.custombossapi.api.boss.other.Ability;
+import org.jetbrains.annotations.NotNull;
+import ru.brenlike.custombossapi.api.boss.SpawnedBoss;
+import ru.brenlike.custombossapi.api.boss.util.Ability;
 import ru.brenlike.custombossapi.api.boss.inventory.BossInventory;
 import ru.brenlike.proboss.ProBoss;
 
@@ -21,7 +22,7 @@ public class ArmamentAbility extends Ability {
     }
 
     @Override
-    public void call(Monster boss, BossInventory inv, Location location, Random random) {
+    public void call(@NotNull SpawnedBoss boss, @NotNull BossInventory inv, @NotNull Location location, @NotNull Random random) {
         BossInventory cloned = inv.clone();
 
         ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
@@ -45,7 +46,7 @@ public class ArmamentAbility extends Ability {
         inv.rightHand(sword);
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-            if (Bukkit.getEntity(boss.getUniqueId()) == null) return;
+            if (Bukkit.getEntity(boss.uniqueId()) == null) return;
 
             inv.from(cloned);
 

@@ -2,7 +2,9 @@ package ru.brenlike.proboss.bosses.ability;
 
 import org.bukkit.Location;
 import org.bukkit.entity.*;
-import ru.brenlike.custombossapi.api.boss.other.Ability;
+import org.jetbrains.annotations.NotNull;
+import ru.brenlike.custombossapi.api.boss.SpawnedBoss;
+import ru.brenlike.custombossapi.api.boss.util.Ability;
 import ru.brenlike.custombossapi.api.boss.inventory.BossInventory;
 
 import java.util.*;
@@ -13,7 +15,8 @@ public class SummonAbility extends Ability {
     }
 
     @Override
-    public void call(Monster boss, BossInventory inv, Location location, Random random) {
+    public void call(@NotNull SpawnedBoss boss, @NotNull BossInventory inv, @NotNull Location location, @NotNull Random random) {
+        if (!(boss.entity() instanceof Monster)) return;
         int min = 1, max = 3;
 
         int zombies = (random.nextInt() * (max - min)) + min;
@@ -22,7 +25,7 @@ public class SummonAbility extends Ability {
             Zombie zombie = location.getWorld().spawn(location, Zombie.class);
             zombie.setBaby();
 
-            LivingEntity player = boss.getTarget();
+            LivingEntity player = ((Monster) boss.entity()).getTarget();
             if (player != null) {
                 if (player instanceof Player) zombie.setTarget(target((Player) player, random));
             }

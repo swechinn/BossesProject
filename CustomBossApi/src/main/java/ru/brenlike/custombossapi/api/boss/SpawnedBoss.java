@@ -1,10 +1,8 @@
 package ru.brenlike.custombossapi.api.boss;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -32,7 +30,5 @@ public interface SpawnedBoss {
      * Returns boss entity
      * @return entity
      */
-    default @Nullable Entity entity() {
-        return Bukkit.getEntity(uniqueId());
-    }
+    @NotNull Entity entity();
 }

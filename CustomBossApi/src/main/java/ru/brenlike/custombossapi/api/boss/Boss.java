@@ -4,10 +4,10 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.entity.EntityType;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
-import ru.brenlike.custombossapi.api.boss.other.Ability;
+import ru.brenlike.custombossapi.api.boss.util.Ability;
 import ru.brenlike.custombossapi.api.boss.inventory.BossInventory;
 import ru.brenlike.custombossapi.api.boss.impl.BossImpl;
-import ru.brenlike.custombossapi.api.boss.other.Protection;
+import ru.brenlike.custombossapi.api.boss.util.Protection;
 import ru.brenlike.custombossapi.api.entity.DamageSource;
 
 import java.util.HashSet;
@@ -52,6 +52,18 @@ public interface Boss {
     @NotNull BossInventory inventory();
 
     /**
+     * Returns boss max health
+     * @return max health
+     */
+    int health();
+
+    /**
+     * Returns boss base damage
+     * @return base damage
+     */
+    double damage();
+
+    /**
      * Returns boss movement speed
      * @return movement speed
      */
@@ -64,6 +76,8 @@ public interface Boss {
         private final Set<Protection> protections = new HashSet<>();
         private final Set<DamageSource> immunities = new HashSet<>();
         private BossInventory inventory = new BossInventory();
+        private int health = 20;
+        private double damage = 2.0D;
         private double speed = 1;
 
         /**
@@ -151,6 +165,28 @@ public interface Boss {
         }
 
         /**
+         * Sets boss health
+         *
+         * @param health boss health size
+         * @return this builder
+         */
+        public Builder health(int health) {
+            this.health = health;
+            return this;
+        }
+
+        /**
+         * Sets boss damage
+         *
+         * @param damage boss damage size
+         * @return this builder
+         */
+        public Builder damage(double damage) {
+            this.damage = damage;
+            return this;
+        }
+
+        /**
          * Sets boss speed
          *
          * @param speed boss speed
@@ -167,7 +203,16 @@ public interface Boss {
          * @return boss
          */
         public Boss build() {
-            return new BossImpl(key, type, abilities, protections, immunities, inventory, speed);
+            return new BossImpl(
+                    key,
+                    type,
+                    abilities,
+                    protections,
+                    immunities,
+                    inventory,
+                    health,
+                    damage,
+                    speed);
         }
     }
 }

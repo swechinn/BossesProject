@@ -14,19 +14,11 @@ import java.util.logging.Logger;
 
 public final class CustomBossApi extends JavaPlugin {
     public final Map<UUID, String> v_4750_ = new HashMap<>();
-    private static BossDict dict;
+    public final Map<String, UUID> v_4751_ = new HashMap<>();
     private static Registry.Impl registry;
+    private static BossDict.Impl dict;
     private static Messages messages;
     private AbstractSqlDatabase stats;
-
-    /**
-     * Returns boss dict
-     *
-     * @return {@link BossDict} class
-     */
-    public static BossDict bossDict() {
-        return dict;
-    }
 
     /**
      * Returns boss registry
@@ -35,6 +27,10 @@ public final class CustomBossApi extends JavaPlugin {
      */
     public static Registry registry() {
         return registry;
+    }
+
+    public static BossDict styles() {
+        return dict;
     }
 
     // For private plugins
@@ -50,9 +46,6 @@ public final class CustomBossApi extends JavaPlugin {
         m_2010_();
         m_2011_();
 
-        l.info("Loading static variables...");
-        m_2020_();
-
         l.info("Loading databases...");
         stats = new PlayerStatsDB(this, getDataFolder() + getConfig().getString("database.file", "data.db"));
     }
@@ -61,11 +54,12 @@ public final class CustomBossApi extends JavaPlugin {
     public void onEnable() {
         Logger l = getLogger();
 
+        l.info("Initializing variables...");
+        dict = new BossDict.Impl();
+        registry = new Registry.Impl(this);
+
         l.info("Enabling databases...");
         stats.enable();
-
-        l.info("Enabling other...");
-        registry = new Registry.Impl(this);
 
         l.info("=======================");
         l.info("Success!");
@@ -82,7 +76,10 @@ public final class CustomBossApi extends JavaPlugin {
         stats.disable();
 
         l.info("Clearing variables...");
+        v_4750_.clear();
+        v_4751_.clear();
         registry.m_9007_();
+        dict.m_9007_();
 
         l.info(getDescription().getName() + " " + getDescription().getVersion() + " - plugin disabled!");
     }
@@ -105,7 +102,12 @@ public final class CustomBossApi extends JavaPlugin {
                 "&a1. &b{top_1_name} {top_1_damage}",
                 "&e2. &b{top_2_name} {top_2_damage}",
                 "&61. &b{top_3_name} {top_3_damage}"));
+        yml.addDefault("boss.spawn.hologram", m_99_("&aПривет, %player_name%!",
+                "&e{boss} появится здесь, через {spawn_time}"));
         yml.addDefault("boss.spawned", "{prefix} &eЗдоровье босса: &c{health}&6/{max_health}");
+        yml.addDefault("time.seconds", "сек.");
+        yml.addDefault("time.minutes", "мин.");
+        yml.addDefault("time.hours", "ч.");
 
         return yml;
     }
@@ -138,9 +140,5 @@ public final class CustomBossApi extends JavaPlugin {
             e.printStackTrace();
         }
         messages = new Messages(yml);
-    }
-
-    public void m_2020_() {
-        dict = new BossDict.Impl(getConfig());
     }
 }

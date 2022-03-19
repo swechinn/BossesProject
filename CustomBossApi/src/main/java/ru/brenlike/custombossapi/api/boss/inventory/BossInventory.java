@@ -27,7 +27,7 @@ public final class BossInventory {
 
     /**
      * Sets main hand item
-     * @return this class
+     * @param hand hand item
      */
     public void rightHand(@NotNull ItemStack hand) {
         this.rightHand = hand;
@@ -44,7 +44,7 @@ public final class BossInventory {
 
     /**
      * Sets left hand item
-     * @return this class
+     * @param hand hand item
      */
     public void leftHand(@NotNull ItemStack hand) {
         this.leftHand = hand;
@@ -61,7 +61,7 @@ public final class BossInventory {
 
     /**
      * Sets helmet item
-     * @return this class
+     * @param helmet helmet item
      */
     public void helmet(@NotNull ItemStack helmet) {
         this.helmet = helmet;
@@ -77,7 +77,7 @@ public final class BossInventory {
 
     /**
      * Sets chestplate item
-     * @return this class
+     * @param chestplate chestplate item
      */
     public void chestplate(@NotNull ItemStack chestplate) {
         this.chestplate = chestplate;
@@ -93,7 +93,7 @@ public final class BossInventory {
 
     /**
      * Sets leggins item
-     * @return this class
+     * @param leggins leggins item
      */
     public void leggins(@NotNull ItemStack leggins) {
         this.leggins = leggins;
@@ -109,7 +109,7 @@ public final class BossInventory {
 
     /**
      * Sets boots item
-     * @return this class
+     * @param boots boots item
      */
     public void boots(@NotNull ItemStack boots) {
         this.boots = boots;

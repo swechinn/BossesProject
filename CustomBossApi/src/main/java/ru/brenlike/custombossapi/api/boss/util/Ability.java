@@ -1,8 +1,8 @@
-package ru.brenlike.custombossapi.api.boss.other;
+package ru.brenlike.custombossapi.api.boss.util;
 
 import org.bukkit.Location;
-import org.bukkit.entity.Monster;
 import org.jetbrains.annotations.NotNull;
+import ru.brenlike.custombossapi.api.boss.SpawnedBoss;
 import ru.brenlike.custombossapi.api.boss.inventory.BossInventory;
 import ru.brenlike.custombossapi.api.entity.DamageSource;
 
@@ -34,10 +34,22 @@ public abstract class Ability {
     }
 
     /**
+     * Returns new period
+     * @return period in ticks
+     */
+    public long period() {
+        return period;
+    }
+
+    /**
      * Calls by triggers
      * @param boss your boss
+     * @param inv boss inventory
      * @param location location where the boss is
      * @param random the randomized values
      */
-    public abstract void call(Monster boss, BossInventory inv, Location location, Random random);
+    public abstract void call(@NotNull SpawnedBoss boss,
+                              @NotNull BossInventory inv,
+                              @NotNull Location location,
+                              @NotNull Random random);
 }

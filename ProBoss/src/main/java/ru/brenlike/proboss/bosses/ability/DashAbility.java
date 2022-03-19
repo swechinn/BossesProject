@@ -6,7 +6,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import ru.brenlike.custombossapi.api.boss.other.Ability;
+import org.jetbrains.annotations.NotNull;
+import ru.brenlike.custombossapi.api.boss.SpawnedBoss;
+import ru.brenlike.custombossapi.api.boss.util.Ability;
 import ru.brenlike.custombossapi.api.boss.inventory.BossInventory;
 
 import java.util.Random;
@@ -17,14 +19,15 @@ public class DashAbility extends Ability {
     }
 
     @Override
-    public void call(Monster boss, BossInventory inv, Location location, Random random) {
+    public void call(@NotNull SpawnedBoss boss, @NotNull BossInventory inv, @NotNull Location location, @NotNull Random random) {
+        if (!(boss instanceof Monster)) return;
         if (inv.rightHand().getType() != Material.IRON_AXE) return;
 
         PotionEffect effect = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 20 * 5, 20);
 
-        boss.addPotionEffect(effect);
+        ((Monster) boss.entity()).addPotionEffect(effect);
 
-        Entity target = boss.getTarget();
-        if (target != null) boss.teleport(target);
+        Entity target = ((Monster) boss.entity()).getTarget();
+        if (target != null) boss.entity().teleport(target);
     }
 }
