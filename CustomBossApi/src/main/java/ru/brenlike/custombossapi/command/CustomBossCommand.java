@@ -24,10 +24,15 @@ public final class CustomBossCommand implements TabExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) ErrorMessages.LITTLE_ARGS.send(sender);
 
-        if (args[0].equalsIgnoreCase("reload")) {
+        if (args[0].equalsIgnoreCase("reload") ||
+                args[0].equalsIgnoreCase("rl")) {
             plugin.m_2010_();
             plugin.m_2011_();
             CustomBossApi.m_7011_().send(sender, "plugin.reloaded");
+
+        } else if (args[0].equalsIgnoreCase("boss")) {
+
+
         }
 
         return true;
@@ -36,7 +41,10 @@ public final class CustomBossCommand implements TabExecutor {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         if (container.isEmpty()) {
-            if (sender.hasPermission("custombossapi.command.customboss.reload")) container.add("reload");
+            if (sender.hasPermission("custombossapi.command.customboss.reload")) {
+                container.add("reload");
+                container.add("rl");
+            }
             if (sender.hasPermission("custombossapi.command.customboss.boss")) container.add("boss");
             if (sender instanceof Player) container.add("slime_chunk_check");
         }

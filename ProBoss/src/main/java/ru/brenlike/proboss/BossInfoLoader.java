@@ -13,24 +13,21 @@ import ru.brenlike.custombossapi.api.boss.BossStyle;
 
 public class BossInfoLoader {
     private final FileConfiguration config;
-    private final String path;
 
-    public BossInfoLoader(@NotNull FileConfiguration p_4808_, @NotNull String p_4809_) {
+    public BossInfoLoader(@NotNull FileConfiguration p_4808_) {
         this.config = p_4808_;
-        this.path = p_4809_;
     }
 
     public @NotNull Boss.Builder builder(@NotNull String key, @NotNull EntityType type) {
-        Validate.notNull(path, "Configuration path cannot be null!");
         Validate.notNull(key, "Boss key cannot be null!");
         Validate.notNull(type, "Boss type cannot be null!");
 
         Boss.Builder builder = new Boss.Builder(key, type);
 
-        int p_2003_ = config.getInt(m_8006_(path + '.' + key, "health"));
-        if (p_2003_ == 0) throw new IllegalArgumentException("Boss spawn period cannot be null or zero!");
+        int p_2003_ = config.getInt(m_8006_(key, "health"));
+        if (p_2003_ == 0) throw new IllegalArgumentException("Boss max health cannot be null or zero!");
 
-        double p_2005_ = config.getDouble(m_8006_(path + '.' + key, "damage"));
+        double p_2005_ = config.getDouble(m_8006_(key, "damage"));
         if (p_2005_ == 0) throw new IllegalArgumentException("Boss damage cannot be null or zero!");
 
         return builder;

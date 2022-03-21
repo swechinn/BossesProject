@@ -20,6 +20,8 @@ import ru.brenlike.custombossapi.api.event.BossDeathEvent;
 import ru.brenlike.custombossapi.api.event.PlayerDamageBossEvent;
 import ru.brenlike.custombossapi.db.PlayerStatsDB;
 
+import java.util.Set;
+
 public class EntityListener implements Listener {
     private final CustomBossApi plugin;
 
@@ -42,7 +44,7 @@ public class EntityListener implements Listener {
 
         sendHealth(p, entity);
 
-        PlayerStatsDB.updateStat(entity, p, e.getDamage());
+        PlayerStatsDB.updatePreStat(entity, p, e.getDamage());
 
         Bukkit.getPluginManager().callEvent(new PlayerDamageBossEvent(p, spawned, p.getWorld()));
     }
@@ -57,7 +59,7 @@ public class EntityListener implements Listener {
         BossStyle style = CustomBossApi.styles().get(b.key());
         SpawnedBoss spawned = new SpawnedBossImpl(entity, b, style);
 
-        MatchRecord[] results = PlayerStatsDB.killEvent(entity);
+        Set<MatchRecord> results = PlayerStatsDB.killEvent(entity);
         Bukkit.getPluginManager().callEvent(new BossDeathEvent(spawned, entity.getWorld(), results));
 
         // Todo

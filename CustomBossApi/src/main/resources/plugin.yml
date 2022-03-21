@@ -3,7 +3,7 @@ version: '${project.version}'
 main: ru.brenlike.custombossapi.CustomBossApi
 api-version: 1.16
 authors: [ 25BrenLike ]
-depend: [PlaceholderAPI]
+depend: [PlaceholderAPI, ProtocolLib]
 description: Api for boss serializing. Specially for DiamondWorld
 
 commands:
@@ -17,3 +17,10 @@ commands:
 permissions:
   custombossapi.command.customboss:
     default: op
+    children:
+      custombossapi.command.customboss.reload:
+        default: op
+
+      custombossapi.command.customboss.boss:
+        default: op
+

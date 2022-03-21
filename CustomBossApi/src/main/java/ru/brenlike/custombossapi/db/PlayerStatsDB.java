@@ -12,6 +12,8 @@ import ru.brenlike.custombossapi.api.db.AbstractSqlDatabase;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class PlayerStatsDB extends AbstractSqlDatabase {
@@ -38,37 +40,60 @@ public class PlayerStatsDB extends AbstractSqlDatabase {
                 ");");
     }
 
-    public static void updateStat(@NotNull Entity boss, @NotNull Player player, double damage) {
+    private static void addPreStat(@NotNull Entity boss, @NotNull Player player, double damage) {
         try {
-            String sql = "UPDATE `pre_stats` SET (`damage` = `damage` + ?) WHERE (`killer` = ?);";
+
+            String sql = "INSERT INTO `pre_stats` VALUES (?, ?, ?)";
 
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, boss.getUniqueId().toString());
+            statement.setString(2, player.getUniqueId().toString());
+            statement.setDouble(3, damage);
+
+            statement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static @Nullable MatchRecord[] killEvent(@NotNull Entity boss) {
+    public static void updatePreStat(@NotNull Entity boss, @NotNull Player player, double damage) {
         try {
-            String sql = "SELECT * FROM `pre_stats` WHERE (`boss` = ?);";
+
+            String sql = "UPDATE `pre_stats` SET (`damage` = `damage` + ?) WHERE (`killer` = ?) AND (`boss` = ?);";
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setDouble(1, damage);
+            statement.setString(2, player.getUniqueId().toString());
+            statement.setString(3, boss.getUniqueId().toString());
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static @NotNull Set<MatchRecord> killEvent(@NotNull Entity boss) {
+        try {
+            String sql = "SELECT * FROM `pre_stats` WHERE (`boss` = ?) ORDER BY `damage` DESC;";
 
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, boss.getUniqueId().toString());
 
             ResultSet result = statement.executeQuery();
-            @Nullable MatchRecord[] records = new MatchRecord[3];
-            int i = 0;
+            Set<MatchRecord> records = new HashSet<>();
+            int top = 0;
 
             while (result.next()) {
                 MatchRecord record = new MatchRecord(
                         Bukkit.getOfflinePlayer(UUID.fromString(result.getString("killer"))),
                         result.getString("boss"),
+                        top,
                         result.getDouble("damage")
                 );
-                records[i] = record;
-                i++;
+                records.add(record);
+                top++;
             }
 
             statement = connection.prepareStatement("DELETE FROM `pre_stats` WHERE (`boss` = ?);");
@@ -80,6 +105,6 @@ public class PlayerStatsDB extends AbstractSqlDatabase {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new MatchRecord[0];
+        return new HashSet<>();
     }
 }

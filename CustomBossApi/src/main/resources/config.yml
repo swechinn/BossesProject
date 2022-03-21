@@ -1,9 +1,9 @@
 # Базы данных
 database:
-  # БД с боссами
-  file: "bosses_api.db"
+  # БД со статистикой
+  filename: "bosses_api.db"
 
 # Настройки локализации
 localization:
   # Файл локализации
-  file: "ru_RU.yml"
+  filename: "ru_RU.yml"

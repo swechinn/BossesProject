@@ -43,7 +43,7 @@ public final class ProBoss extends JavaPlugin {
     }
 
     private void m_30499_() {
-        BossInfoLoader loader = new BossInfoLoader(getConfig(), "bosses");
+        BossInfoLoader loader = new BossInfoLoader(getConfig());
 
         CustomBossApi.registry().register(m_30500_(loader));
         CustomBossApi.registry().register(m_30501_(loader));
@@ -65,7 +65,7 @@ public final class ProBoss extends JavaPlugin {
         BossInventory inv = new BossInventory();
 
         ItemStack crossbow = new ItemStack(Material.CROSSBOW);
-        crossbow.addEnchantment(Enchantment.ARROW_DAMAGE, 1);
+        //crossbow.addEnchantment(Enchantment.ARROW_DAMAGE, 1);
         crossbow.addEnchantment(Enchantment.MULTISHOT, 1);
         inv.rightHand(crossbow);
 
