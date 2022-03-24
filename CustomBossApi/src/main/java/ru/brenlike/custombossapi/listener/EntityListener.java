@@ -6,6 +6,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -16,6 +17,7 @@ import ru.brenlike.custombossapi.api.boss.Boss;
 import ru.brenlike.custombossapi.api.boss.BossStyle;
 import ru.brenlike.custombossapi.api.boss.SpawnedBoss;
 import ru.brenlike.custombossapi.api.boss.impl.SpawnedBossImpl;
+import ru.brenlike.custombossapi.api.entity.DamageSource;
 import ru.brenlike.custombossapi.api.event.BossDeathEvent;
 import ru.brenlike.custombossapi.api.event.PlayerDamageBossEvent;
 import ru.brenlike.custombossapi.db.PlayerStatsDB;
@@ -29,7 +31,7 @@ public class EntityListener implements Listener {
         this.plugin = p_4808_;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDamage(EntityDamageByEntityEvent e) {
         if (!(e.getDamager() instanceof Player)) return;
         if (!(e.getEntity() instanceof LivingEntity)) return;
@@ -39,8 +41,14 @@ public class EntityListener implements Listener {
         Player p = (Player) e.getDamager();
         Boss b = buildBoss(entity);
 
+        DamageSource damage = DamageSource.getSource(e.getCause());
         BossStyle style = CustomBossApi.styles().get(b.key());
         SpawnedBoss spawned = new SpawnedBossImpl(entity, b, style);
+
+        if (b.damageImmunities().contains(damage)) {
+            e.setCancelled(true);
+            return;
+        }
 
         sendHealth(p, entity);
 

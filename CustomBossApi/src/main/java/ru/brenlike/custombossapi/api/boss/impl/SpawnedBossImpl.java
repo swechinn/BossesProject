@@ -1,6 +1,6 @@
 package ru.brenlike.custombossapi.api.boss.impl;
 
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 import ru.brenlike.custombossapi.api.boss.Boss;
 import ru.brenlike.custombossapi.api.boss.BossStyle;
@@ -9,11 +9,11 @@ import ru.brenlike.custombossapi.api.boss.SpawnedBoss;
 import java.util.UUID;
 
 public class SpawnedBossImpl implements SpawnedBoss {
-    private final Entity entity;
+    private final LivingEntity entity;
     private final Boss boss;
     private final BossStyle style;
 
-    public SpawnedBossImpl(@NotNull Entity p_4700_, @NotNull Boss p_4701_, @NotNull BossStyle p_4702_) {
+    public SpawnedBossImpl(@NotNull LivingEntity p_4700_, @NotNull Boss p_4701_, @NotNull BossStyle p_4702_) {
         this.entity = p_4700_;
         this.boss = p_4701_;
         this.style = p_4702_;
@@ -35,7 +35,7 @@ public class SpawnedBossImpl implements SpawnedBoss {
     }
 
     @Override
-    public @NotNull Entity entity() {
+    public @NotNull LivingEntity entity() {
         return entity;
     }
 }

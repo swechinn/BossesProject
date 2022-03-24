@@ -14,21 +14,17 @@ import java.util.Set;
 public abstract class Ability {
     protected long period;
     protected int health;
-    protected Set<DamageSource> damageSources;
 
-    public Ability(long period, int health, @NotNull DamageSource... damageTypes) {
+    public Ability(long period, int health) {
         this.period = period;
         this.health = health;
-        this.damageSources = new HashSet<>(Arrays.asList(damageTypes));
     }
 
-    public boolean canUse(int health, @NotNull DamageSource damage) {
+    public boolean canUse(int health) {
         boolean can = false;
 
         if (this.health != -1)
             if (this.health == health) can = true;
-
-        else if (this.damageSources.contains(damage)) can = true;
 
         return can;
     }
@@ -52,4 +48,13 @@ public abstract class Ability {
                               @NotNull BossInventory inv,
                               @NotNull Location location,
                               @NotNull Random random);
+
+    /**
+     * Clones ability class
+     * @return cloned ability class
+     */
+    @Override
+    public Ability clone() {
+        return this;
+    }
 }

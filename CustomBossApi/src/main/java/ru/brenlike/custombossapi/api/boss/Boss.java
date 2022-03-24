@@ -142,6 +142,20 @@ public interface Boss {
         }
 
         /**
+         * Adds all boss damage immunities
+         *
+         * @param immunities boss immunities
+         * @return this builder
+         */
+        public Builder immunities(@NotNull DamageSource... immunities) {
+            for (DamageSource source:
+                    immunities) {
+                immunity(source);
+            }
+            return this;
+        }
+
+        /**
          * Adds boss damage immunity
          *
          * @param immunity boss immunity

@@ -1,6 +1,6 @@
 package ru.brenlike.custombossapi.api.boss;
 
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,5 +30,5 @@ public interface SpawnedBoss {
      * Returns boss entity
      * @return entity
      */
-    @NotNull Entity entity();
+    @NotNull LivingEntity entity();
 }

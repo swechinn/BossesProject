@@ -25,6 +25,6 @@ public class PlayerListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent e) {
         Player p = e.getPlayer();
 
-        plugin.v_4752_.removeHologram(p);
+        CustomBossApi.spawner().removeHologram(p);
     }
 }

@@ -1,11 +1,12 @@
 package ru.brenlike.custombossapi;
 
 import com.comphenix.protocol.ProtocolLibrary;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import ru.brenlike.custombossapi.api.BossSpawner;
+import ru.brenlike.custombossapi.api.BossSpawnerImpl;
 import ru.brenlike.custombossapi.api.config.YamlDefaults;
 import ru.brenlike.custombossapi.api.config.Messages;
 import ru.brenlike.custombossapi.api.db.AbstractSqlDatabase;
@@ -27,20 +28,29 @@ public final class CustomBossApi extends JavaPlugin {
     private static BossDict.Impl dict;
     public final Map<UUID, String> v_4750_ = new HashMap<>();
     public final Map<String, UUID> v_4751_ = new HashMap<>();
-    public final BossSpawner v_4752_ = new BossSpawner(this);
+    private static BossSpawnerImpl spawner;
     private AbstractSqlDatabase stats;
 
     /**
      * Returns boss registry
-     *
      * @return registry class
      */
     public static Registry registry() {
         return registry;
     }
 
+    /**
+     * Returns bosses and holograms spawner
+     * @return spawner class
+     */
+    public static BossSpawner spawner() {
+        return spawner;
+    }
 
-
+    /**
+     * Returns boss styles dict
+     * @return boss styles
+     */
     public static BossDict styles() {
         return dict;
     }
@@ -71,6 +81,7 @@ public final class CustomBossApi extends JavaPlugin {
         Logger l = getLogger();
 
         l.info("Initializing variables...");
+        spawner = new BossSpawnerImpl(this);
         entityHider = new EntityHider(this);
         dict = new BossDict.Impl();
         registry = new Registry.Impl(this);
@@ -109,6 +120,7 @@ public final class CustomBossApi extends JavaPlugin {
         l.info("Clearing variables...");
         v_4750_.clear();
         v_4751_.clear();
+        spawner.clear();
         registry.m_9007_();
         dict.m_9007_();
 

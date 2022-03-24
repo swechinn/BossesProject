@@ -9,11 +9,10 @@ import org.jetbrains.annotations.NotNull;
 import ru.brenlike.custombossapi.CustomBossApi;
 import ru.brenlike.custombossapi.api.boss.Boss;
 import ru.brenlike.custombossapi.api.boss.inventory.BossInventory;
+import ru.brenlike.custombossapi.api.entity.DamageSource;
 import ru.brenlike.proboss.bosses.protection.KnockBackProtection;
 import ru.brenlike.proboss.bosses.ability.DashAbility;
 import ru.brenlike.proboss.bosses.ability.RageAbility;
-import ru.brenlike.proboss.bosses.protection.PotionProtection;
-import ru.brenlike.proboss.bosses.protection.ProjectTileProtection;
 import ru.brenlike.proboss.bosses.ability.ArmamentAbility;
 import ru.brenlike.proboss.bosses.ability.SummonAbility;
 
@@ -57,7 +56,7 @@ public final class ProBoss extends JavaPlugin {
         return loader.builder("zombie_summoner", EntityType.ZOMBIE)
                 .abilities(new ArmamentAbility(this), new SummonAbility())
                 .inventory(inv)
-                .protections(new PotionProtection(), new ProjectTileProtection())
+                .immunities(DamageSource.POISON, DamageSource.PROJECTILE)
                 .build();
     }
 
@@ -65,7 +64,7 @@ public final class ProBoss extends JavaPlugin {
         BossInventory inv = new BossInventory();
 
         ItemStack crossbow = new ItemStack(Material.CROSSBOW);
-        //crossbow.addEnchantment(Enchantment.ARROW_DAMAGE, 1);
+        crossbow.addEnchantment(Enchantment.ARROW_DAMAGE, 1);
         crossbow.addEnchantment(Enchantment.MULTISHOT, 1);
         inv.rightHand(crossbow);
 
