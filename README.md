@@ -1,3 +1,2 @@
 # BossesProject
-Test work for DiamondWorld
-Первый коммит - на всякий.
+Test task for DiamondWorld
